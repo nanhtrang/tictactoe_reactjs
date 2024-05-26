@@ -83,7 +83,6 @@ function Board() {
         <Square value={boardList[8]} onclick={() => {handleClick(8)}} turn={isX} className='b-r-radius' />
       </div>
       <button onClick={reset}>Reset</button>
-      <button onClick={() => {setShowModal(true)}}>showModal</button>
       <NotificationDialog show={showModal} playAgain={reset} winner={winner}/>
     </>
   )
