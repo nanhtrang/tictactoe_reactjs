@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Square({ value, className, turn, onclick }) {
 
   const [isClick, setClicked] = useState(false)
+
+  useEffect(() => {
+    if (value === null) {
+      console.log(value)
+      setClicked(false)
+    }
+  }, [value])
 
   const onMouseEnter = function (e) {    
     if (!isClick) {

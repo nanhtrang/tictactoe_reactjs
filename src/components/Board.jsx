@@ -7,7 +7,7 @@ function Board() {
   const [isX, setIsX] = useState(true)
   const [isClickedList, setIsClickedList] = useState(Array(9).fill(null))
   const [showModal, setShowModal] = useState(false)
-  const [winner, setWinner] = useState(null)
+  const [message, setMessage] = useState(null)
 
 
   function handleClick(index) {
@@ -24,11 +24,25 @@ function Board() {
     setBoardList(tmpBoardList)
     setIsX(!isX)    
     const winner = checkWin(tmpBoardList)
+    const isFull = checkFull(tmpBoardList);
     if (winner) {
       setIsClickedList(Array(9).fill(true))
-      setWinner(winner)
+      setMessage(`Player ${winner} win!`)
+      setShowModal(true)
+    } else if (!winner && isFull) {
+      setMessage('Tied game!')
       setShowModal(true)
     }
+  }
+
+  function checkFull(boardList) {
+    let count = 0
+    for (const square of boardList) {
+      if (square != null) {
+        count ++
+      }
+    }
+    return count == 9
   }
 
   function checkWin(boardList) {
@@ -55,7 +69,7 @@ function Board() {
     setBoardList(Array(9).fill(null))
     setIsX(true)
     setIsClickedList(Array(9).fill(null))
-    setWinner(null)
+    setMessage(null)
     const squares = document.getElementsByClassName('square')
     for (const square of squares) {
       square.classList.remove('active-x')
@@ -83,7 +97,7 @@ function Board() {
         <Square value={boardList[8]} onclick={() => {handleClick(8)}} turn={isX} className='b-r-radius' />
       </div>
       <button onClick={reset}>Reset</button>
-      <NotificationDialog show={showModal} playAgain={reset} winner={winner}/>
+      <NotificationDialog show={showModal} playAgain={reset} message={message}/>
     </>
   )
 }
